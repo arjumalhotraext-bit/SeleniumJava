@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="HiBye" parallel="tests" thread-count="2"> <!-- We can have parallel tests to fasten up the testing -->
+    <listeners>
+        <listener class-name="testng.TestListener"/>
+    </listeners>
+
+    <test name="hi bye show">
+        <parameter name="URL" value="https://rahulshettyacademy.com" />
+        <parameter name="username" value="testUser123" />
+
+        <classes>
+            <class name="testng.TNG1">
+                <methods> <!-- If I write only include it will be the only test to run in this class  -->
+                    <include name="showBye"/>
+                </methods>
+            </class>
+
+            <class name="testng.TNG2"/>
+        </classes>
+    </test>
+
+    <test name="Run Smoke Group Only">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="testng.TNG1"/>
+            <class name="testng.TNG2"/>
+        </classes>
+    </test>
+
+
+    <test name="hi bye part II">
+        <classes>
+            <class name="testng.TNG1">
+                <methods> <!-- This is to skip the test case so we are skipping this showHello method -->
+                    <exclude name="showHello"/>
+
+                    <exclude name="show.*"/> <!-- This will skip all which starts with show -->
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

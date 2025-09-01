@@ -1,0 +1,68 @@
+package demoqa.tests;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+
+import static demoqa.base.BasePage.delay;
+import static demoqa.utlities.Utility.setUtilityDriver;
+
+public class BaseTest {
+
+    private WebDriver driver;
+    protected demoqa.base.BasePage basePage;
+    protected demoqa.base.HomePage homePage;
+    private String DEMOQA_URL = "https://demoqa.com/";
+
+    @BeforeClass
+    public void setUp() {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+    }
+
+    @BeforeMethod
+    public void loadApplication() {
+        driver.get(DEMOQA_URL);
+        basePage = new demoqa.base.BasePage();
+        basePage.setDriver(driver);
+        setUtilityDriver();
+        homePage = new demoqa.base.HomePage();
+    }
+
+    @AfterMethod
+    public void takeFailedResultScreenshot(ITestResult testResult) {
+        if (ITestResult.FAILURE == testResult.getStatus()) {
+            TakesScreenshot screenshot = (TakesScreenshot) driver;
+            File source = screenshot.getScreenshotAs(OutputType.FILE);
+            File destination = new File(System.getProperty("user.dir") +
+                    "/resources/screenshots/(" +
+                    java.time.LocalDate.now() + ") " +
+                    testResult.getName() + ".png");
+            try {
+                FileHandler.copy(source, destination);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("Screenshot Located At " + destination);
+        }
+    }
+
+    @AfterClass
+    public void tearDown() {
+        delay(3000);
+        driver.quit();
+    }
+}
