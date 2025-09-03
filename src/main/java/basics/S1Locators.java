@@ -78,6 +78,8 @@ public class S1Locators {
     // if we want to get text we use --> [getText()]
     // if we want to clear the field --> [clear()]
     // if we want to check if the element is there -> [isDisplayed()]
+    // if we want to check if checkbox is selected -> [isSelected()]
+    // count total checkboxes -> int totalCheckboxes = driver.findElements(By.cssSelector("input[type='checkbox']")).size();
 
 
     // Set<String> abc = driver.getWindowHandles();

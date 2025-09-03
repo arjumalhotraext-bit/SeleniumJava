@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.Set;
 
-public class S2SwitchTabsWindows {
+public class S2SwitchWindows {
     public static void main(String[] args) {
         WebDriver driver = new ChromeDriver();
         driver.get("https://rahulshettyacademy.com/AutomationPractice/");
